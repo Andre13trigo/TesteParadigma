@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "TAREFA 1";
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/ScriptProjeto.js"></script>
+<main>
+    <section class="row" aria-labelledby="aspnetTitle">
+        <h1 id="title">@ViewBag.Title</h1>
+        <div>
+            <p class="lead">@ViewBag.Enunciado</p>
+            <div class="answer">
+                
+            </div>
+        </div>
+    </section>
+
+    <button class="resolutionBtn button" id="button" onclick="resolveTaskOne()">
+        RESOLUÇÃO
+    </button>
+</main>
