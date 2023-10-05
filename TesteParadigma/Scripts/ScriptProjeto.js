@@ -27,9 +27,9 @@ function resolveTaskOne() {
             },
             success: function (response) {
                 html += '<ol>';
-                html += '<li class="p1"></li>';
+                html += '    <li class="p1"></li>';
                 html += '    <li class="p2"></li>';
-                html += '   <li class="p3"></li>';
+                html += '    <li class="p3"></li>';
                 html += '</ol>';
                 $(html).appendTo('.answer');
                 $('.answer .p1').text("Lista Original: [" + response.parametro + "]");
@@ -45,4 +45,32 @@ function resolveTaskOne() {
     } else {
         console.log('Vetor não encontrado no texto.');
     }
+}
+
+function resolveTaskTwo() {
+    $('.answer').empty();
+    var html = "";
+    $.ajax({
+        url: '/Tarefas/ResolveTarefa2',
+        type: 'POST',
+        dataType: 'json',
+        success: function (response) {
+            html += '<ol>';
+            html += '    <li class="p1"></li>';
+            html += '    <li class="p2"></li>';
+            html += '    <li class="p3"></li>';
+            html += '    <li class="p4"></li>';
+            html += '</ol>';
+            $(html).appendTo('.answer');
+            $('.answer .p1').text(response.text1);
+            $('.answer .p2').text(response.text2);
+            $('.answer .p3').text(response.text3);
+            $('.answer .p4').text(response.resp);
+
+        },
+        error: function (xhr, status, error) {
+
+            console.error(error);
+        }
+    });
 }
