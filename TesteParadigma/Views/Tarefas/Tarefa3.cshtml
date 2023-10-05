@@ -2,13 +2,24 @@
     ViewBag.Title = "TAREFA 3";
 }
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/ScriptProjeto.js"></script>
 <main>
     <section class="row" aria-labelledby="aspnetTitle">
         <h1 id="title">@ViewBag.Title</h1>
-        <p class="lead">O vetor de entrada para esta tarefa é TRIGO</p>
+        <div>
+            <p class="lead">@ViewBag.Enunciado</p>
+            <div>
+                <input type="text" id="dados" class="dados">
+                <input type="text" id="soma" class="soma" onblur="validaNumero()">
+            </div>
+            <div class="answer">
+
+            </div>
+        </div>
     </section>
 
-    <div class="row">
-
-    </div>
+    <button class="resolutionBtn button aux" id="button" onclick="resolveTaskThree()">
+        RESOLUÇÃO
+    </button>
 </main>

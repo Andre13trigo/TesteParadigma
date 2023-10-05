@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
+using TesteParadigma.Models;
 
 namespace TesteParadigma.Controllers
 {
@@ -12,8 +14,8 @@ namespace TesteParadigma.Controllers
         // GET: Tarefas
         public ActionResult Tarefa1()
         {
-            ViewBag.Enunciado = "Utilizando o array [7, 5, 3, 9, 6, 4, 1], faça o código para percorrer a lista, localizar e substituir o valor 9 por 5,\r\nremover o " +
-                "valor 4 da lista. Ao final você deve apresentar na tela a lista original, a nova lista e a soma dos valores da\r\nnova lista.";
+            ViewBag.Enunciado = "Utilizando o array [7, 5, 3, 9, 6, 4, 1], faça o código para percorrer a lista, localizar e substituir o valor 9 por 5,\r\n" +
+                "remover o valor 4 da lista. Ao final você deve apresentar na tela a lista original, a nova lista e a soma dos valores da\r\nnova lista.";
             return View();
         }
 
@@ -27,6 +29,9 @@ namespace TesteParadigma.Controllers
 
         public ActionResult Tarefa3()
         {
+            ViewBag.Enunciado = "Desenvolva um algoritmo que, dado um conjunto de números inteiros, retorne o índice da posição da soma de dois\r\n" +
+                "números desse conjunto. Você pode assumir que cada conjunto de números tem apenas uma solução, e você não\r\n" +
+                "pode usar o mesmo número duas vezes.";
             return View();
         }
 
@@ -80,6 +85,41 @@ namespace TesteParadigma.Controllers
             string text3 = "Logo no terceiro SQL, seria o primeiro conjunto Total = 100 menos o segundo conjunto Total123 = 15";
             string resp = "O resultado o SQL será 100 - 15 = 85";
             return Json(new { text1, text2, text3, resp });
+        }
+
+        [HttpPost]
+        public JsonResult ResolveTarefa3(string Model)
+        {
+            List<int> numeros = new List<int>();
+            ModelTask3 obj = JsonConvert.DeserializeObject<ModelTask3>(Model);
+            string[] numerosString = obj.array.Trim('[', ']').Split(',');
+            foreach (string numeroString in numerosString)
+            {
+                if (int.TryParse(numeroString, out int numero))
+                {
+                    numeros.Add(numero);
+                }
+            }
+            List<int> lista = SomadeDoisNum(numeros.ToArray(), obj.soma);
+            string resp = "Os indices dos números que somam " + obj.soma+ " são (" + lista[0] + "," + lista[1] + ")";
+            return Json(new { resp });
+        }
+
+        public static List<int> SomadeDoisNum(int[] num, int soma)
+        {
+            Dictionary<int, int> numDict = new Dictionary<int, int>();
+            List<int> list = new List<int>();
+            for (int i = 0; i < num.Length; i++)
+            {
+                int comp = soma - num[i];
+                if (numDict.ContainsKey(comp))
+                {
+                    list.Add(numDict[comp]);
+                    list.Add(i);
+                }
+                numDict[num[i]] = i;
+            }
+            return list;
         }
     }
 }

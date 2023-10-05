@@ -1,5 +1,5 @@
-﻿$(document).ready(function() {
-    $('.button').click(function() {
+﻿$(document).ready(function () {
+    $('.button').click(function () {
         $(this).toggleClass('active');
     });
 });
@@ -20,8 +20,8 @@ function resolveTaskOne() {
 
         $.ajax({
             url: '/Tarefas/ResolveTarefa1',
-            type: 'POST', 
-            dataType: 'json', 
+            type: 'POST',
+            dataType: 'json',
             data: {
                 parametro: vetor
             },
@@ -39,11 +39,11 @@ function resolveTaskOne() {
             },
             error: function (xhr, status, error) {
 
-                console.error(error);
+                alert(error);
             }
         });
     } else {
-        console.log('Vetor não encontrado no texto.');
+        alert('Vetor não encontrado no texto.');
     }
 }
 
@@ -70,7 +70,58 @@ function resolveTaskTwo() {
         },
         error: function (xhr, status, error) {
 
-            console.error(error);
+            alert(error);
         }
     });
+}
+
+function resolveTaskThree() {
+    $('.answer').empty();
+    var inputElement = $('.dados').val();
+    var html = "";
+    if (validaNumero()) {
+        var soma = parseInt($('.soma').val());
+        var regex = /^\d+(,\d+)*$/;
+        if (regex.test(inputElement)) {
+            var Model = {
+                array: inputElement,
+                soma: soma
+            };
+
+            $.ajax({
+                url: '/Tarefas/ResolveTarefa3',
+                type: 'POST',
+                data: {
+                    Model: JSON.stringify(Model),
+                },
+                dataType: 'json',
+                success: function (response) {
+                    html += '<ol>';
+                    html += '    <li class="p1"></li>';
+                    html += '</ol>';
+                    $(html).appendTo('.answer');
+                    $('.answer .p1').text(response.resp);
+
+                },
+                error: function (xhr, status, error) {
+
+                    alert(error);
+                }
+            });
+        } else {
+            alert('Entrada inválida. Insira números separados por vírgula e verifique se a soma é um número válido');
+        }
+    } else {
+        alert('Entrada da Soma inválida. Insira apenas um número.');
+    }
+}
+
+function validaNumero() {
+    var num = parseInt($('.soma').val());
+    if (!(!isNaN(parseFloat(num)) && isFinite(num))) {
+        alert('Entrada da Soma inválida. Insira apenas um número.');
+        return false;
+    } else {
+        return true;
+    }
 }
