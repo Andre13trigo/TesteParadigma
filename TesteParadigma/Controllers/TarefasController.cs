@@ -19,6 +19,9 @@ namespace TesteParadigma.Controllers
 
         public ActionResult Tarefa2()
         {
+            ViewBag.Enunciado1 = "Analise o cenário a seguir: ";
+            ViewBag.Enunciado2 = "Dado o resulado acima, qual será o resultado do SQL abaixo?";
+            ViewBag.Enunciado3 = "SELECT COUNT(Codigo) as TotalFinal FROM Pedido WHERE CodigoComprador <> 123";
             return View();
         }
 
@@ -67,6 +70,16 @@ namespace TesteParadigma.Controllers
         {
             vetor = vetor.Where(num => num != "0").ToArray();
             return vetor.ToList();
+        }
+
+        [HttpPost]
+        public JsonResult ResolveTarefa2()
+        {
+            string text1 = "Observando o primeiro SQL, sabemos que a Tabela Pedido tem 100 registros, portanto Total = 100";
+            string text2 = "No segundo SQL, quando temos a condição CodigoComprador = 123, restringimos o conjunto de pedidos para Total123 = 15";
+            string text3 = "Logo no terceiro SQL, seria o primeiro conjunto Total = 100 menos o segundo conjunto Total123 = 15";
+            string resp = "O resultado o SQL será 100 - 15 = 85";
+            return Json(new { text1, text2, text3, resp });
         }
     }
 }
